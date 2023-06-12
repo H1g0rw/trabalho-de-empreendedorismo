@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ITPCS</title>
+  <style>
+    /* Estilos gerais */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #667386;
+}
+
+.container {
+max-width: 1200px;
+margin: 0 auto;
+}
+
+h1 {
+text-align: center;
+margin-bottom: 40px;
+color: #333;
+}
+
+h2 {
+margin-top: 20px;
+margin-bottom: 10px;
+color: #333;
+}
+
+ul {
+list-style-type: none;
+padding: 0;
+margin: 0;
+}
+
+/* Estilos para produtos */
+.product {
+display: flex;
+align-items: center;
+margin-bottom: 30px;
+padding: 20px;
+background-color: #cecece;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+border-radius: 4px;
+text-align: center;
+}
+
+.product-image {
+width: 100px;
+height: 100px;
+margin-right: 20px;
+object-fit: cover;
+}
+
+.product-details {
+flex: 1;
+}
+
+.product-name {
+font-weight: bold;
+color: #333;
+margin-bottom: 5px;
+}
+
+.product-price {
+color: #000000;
+}
+
+button {
+padding: 10px 20px;
+background-color: #4CAF50;
+border: none;
+color: white;
+cursor: pointer;
+transition: background-color 0.3s ease;
+}
+
+button:hover {
+background-color: #45a049;
+}
+
+/* Estilos para o carrinho */
+.cart-item {
+display: flex;
+align-items: center;
+margin-bottom: 20px;
+padding: 10px;
+background-color: #fff;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+border-radius: 4px;
+}
+
+.cart-item-image {
+width: 60px;
+height: 60px;
+margin-right: 10px;
+object-fit: cover;
+}
+
+.cart-item-details {
+flex: 1;
+}
+
+.cart-item-name {
+font-weight: bold;
+color: #333;
+margin-bottom: 5px;
+}
+
+.cart-item-price {
+color: #555;
+}
+
+.cart-item-remove {
+color: red;
+cursor: pointer;
+transition: color 0.3s ease;
+}
+
+.cart-item-remove:hover {
+color: #ff0000;
+}
+
+.cart-total {
+margin-top: 20px;
+font-weight: bold;
+color: #333;
+text-align: right;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+.product,
+.cart-item {
+flex-direction: column;
+}
+
+.product-image,
+.cart-item-image {
+margin-right: 0;
+margin-bottom: 10px;
+}
+}
+
+@media (max-width: 480px) {
+body {
+padding: 10px;
+}
+
+h1 {
+font-size: 24px;
+margin-bottom: 30px;
+}
+
+h2 {
+font-size: 20px;
+margin-top: 10px;
+margin-bottom: 5px;
+}
+
+.product {
+padding: 15px;
+}
+
+.product-image,
+.cart-item-image {
+width: 80px;
+height: 80px;
+}
+
+.product-name,
+.cart-item-name {
+font-size: 16px;
+}
+
+.product-price,
+.cart-item-price,
+.cart-total {
+font-size: 14px;
+}
+
+button {
+padding: 8px 16px;
+}
+}
+</style>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const products = [
+        //placas de video
+        {
+          name: "NVIDIA GeForce RTX 3080",
+          price: 2199,
+          image: "green_pill.a407a62b.png"
+        },
+        {
+          name: "AMD Radeon RX 6900 XT",
+          price: 3199,
+          image: "blue_pill.351327e7.png"
+        },
+        {
+          name: "NVIDIA GeForce RTX 3070",
+          price: 3819,
+          image: "purple_pill2.png"
+        },
+        //processador
+        {
+          name: "AMD Ryzen 9 5950X",
+          price: 3300,
+          image: "red_pill.e002a90f.png"
+        },
+        {
+          name: "Intel Core i9-11900K",
+          price: 2449,
+          image: "th-2038519369.jpg"
+        },
+        {
+          name: "AMD Ryzen 7 5800X",
+          price: 1499,
+          image: "blue_pill.351327e7.png"
+        },
+        //placas mae
+        {
+          name: "ASUS ROG Strix Z590-E Gaming",
+          price: 1999,
+          image: "purple_pill2.png"
+        },
+        {
+          name: "MSI MPG B550 Gaming Plus",
+          price: 1299,
+          image: "red_pill.e002a90f.png"
+        },
+        {
+          name: "Gigabyte X570 Aorus Ultra",
+          price: 919,
+          image: "th-2038519369.jpg"
+        },
+        //memoria ram
+        {
+          name: "Corsair Vengeance LPX",
+          price: 489,
+          image: "purple_pill2.png"
+        },
+        {
+          name: "G.Skill Trident Z RGB",
+          price: 529,
+          image: "red_pill.e002a90f.png"
+        },
+        {
+          name: "Kingston HyperX Predator",
+          price: 549,
+          image: "purple_pill2.png"
+        },
+        //ssd
+        {
+          name: "Samsung 970 EVO Plus",
+          price: 1409,
+          image: "red_pill.e002a90f.png"
+        },
+        {
+          name: "WD Black SN850",
+          price: 619,
+          image: "th-2038519369.jpg"
+        },
+        {
+          name: "Crucial MX500",
+          price: 1209,
+          image: "red_pill.e002a90f.png"
+        },
+        //fonte
+        {
+          name: "EVGA Supernova 850 P2",
+          price: 799,
+          image: "th-2038519369.jpg"
+        },
+        {
+          name: "Corsair RM750x",
+          price: 699,
+          image: "red_pill.e002a90f.png"
+        },
+        {
+          name: "Seasonic Focus GX-650",
+          price: 699,
+          image: "th-2038519369.jpg"
+        }
+      ];
+
+      const cart = document.getElementById("cart");
+      const cartTotal = document.getElementById("cart-total");
+      let total = 0.00;
+
+      function createCartItem(item) {
+        const cartItem = document.createElement("li");
+        cartItem.classList.add("cart-item");
+        cartItem.innerHTML = `
+          <img class="cart-item-image" src="${item.image}" alt="${item.name}">
+          <div class="cart-item-details">
+            <span class="cart-item-name">${item.name}</span> - R$${item.price.toFixed(2)}
+            <span class="cart-item-remove" onclick="removeFromCart(this)">Remover</span>
+          </div>
+        `;
+        cart.appendChild(cartItem);
+      }
+
+      function addToCart(itemIndex) {
+        const item = products[itemIndex];
+        createCartItem(item);
+        total += item.price;
+        cartTotal.textContent = `Total: R$${total.toFixed(2)}`;
+      }
+
+      function removeFromCart(item) {
+        const cartItem = item.parentNode.parentNode;
+        const price = parseFloat(cartItem.querySelector(".cart-item-price").textContent.match(/R\$(\d+\.\d+)/)[1]);
+        cart.removeChild(cartItem);
+        total -= price;
+        cartTotal.textContent = `Total: R$${total.toFixed(2)}`;
+      }
+
+      const productButtons = document.querySelectorAll(".product button");
+      productButtons.forEach((button, index) => {
+        button.addEventListener("click", () => addToCart(index));
+      });
+    });
+  </script>
+</head>
+<body>
+  <h1>Minha Loja</h1>
+  <h2>Produtos</h2>
+  <div class="product">
+    <img class="product-image" src="3080.jpg" alt="NVIDIA GeForce RTX 3080">
+    <div class="product-details">
+      <div class="product-name">NVIDIA GeForce RTX 3080</div>
+      <div class="product-price">R$2199</div>
+      <button>Adicionar ao Carrinho</button>
+    </div>
+  </div>
+  <div class="product">
+    <img class="product-image" src="6900.jpg" alt="AMD Radeon RX 6900 XT">
+    <div class="product-details">
+      <div class="product-name">AMD Radeon RX 6900 XT</div>
+      <div class="product-price">R$3199</div>
+      <button>Adicionar ao Carrinho</button>
+    </div>
+  </div>
+  <div class="product">
+    <img class="product-image" src="3070.jpg" alt="NVIDIA GeForce RTX 3070">
+    <div class="product-details">
+      <div class="product-name">NVIDIA GeForce RTX 3070</div>
+      <div class="product-price">R$3819</div>
+      <button>Adicionar ao Carrinho</button>
+    </div>
+  </div>
+  <div class="product">
+    <img class="product-image" src="ryzen 9.jpg" alt="AMD Ryzen 9 5950X">
+    <div class="product-details">
+      <div class="product-name">AMD Ryzen 9 5950X</div>
+      <div class="product-price">R$3300</div>
+      <button>Adicionar ao Carrinho</button>
+    </div>
+  </div>
+  <div class="product">
+    <img class="product-image" src="i9.jpg" alt="Intel Core i9-11900K">
+    <div class="product-details">
+      <div class="product-name">Intel Core i9-11900K</div>
+      <div class="product-price">R$2449</div>
+      <button>Adicionar ao Carrinho</button>
+    </div>
+  </div>
+  <div class="product">
+    <img class="product-image" src="ryzen 7.jpg" alt="AMD Ryzen 7 5800X">
+    <div class="product-details">
+      <div class="product-name">AMD Ryzen 7 5800X</div>
+      <div class="product-price">R$1499</div>
+      <button>Adicionar ao Carrinho</button>
+    </div>
+  </div>
+  <div class="product">
+    <img class="product-image" src="ASUS ROG.jpg" alt="ASUS ROG Strix Z590-E Gaming">
+    <div class="product-details">
+      <div class="product-name">ASUS ROG Strix Z590-E Gaming</div>
+      <div class="product-price">R$1999</div>
+      <button>Adicionar ao Carrinho</button>
+    </div>
+  </div>
+  <div class="product">
+    <img class="product-image" src="MSI MPG.jpg" alt="MSI MPG B550 Gaming Plus">
+    <div class="product-details">
+      <div class="product-name">MSI MPG B550 Gaming Plus</div>
+      <div class="product-price">R$1299</div>
+      <button>Adicionar ao Carrinho</button>
+    </div>
+  </div>
+  <div class="product">
+    <img class="product-image" src="Gigabyte X570.jpg" alt="Gigabyte X570 Aorus Ultra">
+    <div class="product-details">
+      <div class="product-name">Gigabyte X570 Aorus Ultra</div>
+      <div class="product-price">R$919</div>
+      <button>Adicionar ao Carrinho</button>
+    </div>
+  </div>
+  <div class="product">
+    <img class="product-image" src="Corsair.jpg" alt="Corsair Vengeance LPX">
+    <div class="product-details">
+      <div class="product-name">Corsair Vengeance LPX</div>
+      <div class="product-price">R$489</div>
+      <button>Adicionar ao Carrinho</button>
+    </div>
+  </div>
+  <div class="product">
+    <img class="product-image" src="G.Skill.jpg" alt="G.Skill Trident Z RGB">
+    <div class="product-details">
+      <div class="product-name">G.Skill Trident Z RGB</div>
+      <div class="product-price">R$529</div>
+      <button>Adicionar ao Carrinho</button>
+    </div>
+  </div>
+  <div class="product">
+    <img class="product-image" src="Kingston.jpg" alt="Kingston HyperX Predator">
+    <div class="product-details">
+      <div class="product-name">Kingston HyperX Predator</div>
+      <div class="product-price">R$549</div>
+      <button>Adicionar ao Carrinho</button>
+    </div>
+  </div>
+  <div class="product">
+    <img class="product-image" src="Samsung.jpg" alt="Samsung 970 EVO Plus">
+    <div class="product-details">
+      <div class="product-name">Samsung 970 EVO Plus</div>
+      <div class="product-price">R$1409</div>
+      <button>Adicionar ao Carrinho</button>
+    </div>
+  </div>
+  <div class="product">
+    <img class="product-image" src="WD Black.png" alt="WD Black SN850">
+    <div class="product-details">
+      <div class="product-name">WD Black SN850</div>
+      <div class="product-price">R$619</div>
+      <button>Adicionar ao Carrinho</button>
+    </div>
+  </div>
+  <div class="product">
+    <img class="product-image" src="Crucial MX500" alt="Crucial MX500">
+    <div class="product-details">
+      <div class="product-name">Crucial MX500</div>
+      <div class="product-price">R$1209</div>
+      <button>Adicionar ao Carrinho</button>
+    </div>
+  </div>
+  <div class="product">
+    <img class="product-image" src="EVGA.png" alt="EVGA Supernova 850 P2">
+    <div class="product-details">
+      <div class="product-name">EVGA Supernova 850 P2</div>
+      <div class="product-price">R$799</div>
+      <button>Adicionar ao Carrinho</button>
+    </div>
+  </div>
+  <div class="product">
+    <img class="product-image" src="Corsair RM750x.jpg" alt="Corsair RM750x">
+    <div class="product-details">
+      <div class="product-name">Corsair RM750x</div>
+      <div class="product-price">R$699</div>
+      <button>Adicionar ao Carrinho</button>
+    </div>
+  </div>
+  <div class="product">
+    <img class="product-image" src="Seasonic.jpg" alt="Seasonic Focus GX-650">
+    <div class="product-details">
+      <div class="product-name">Seasonic Focus GX-650</div>
+      <div class="product-price">R$699</div>
+      <button>Adicionar ao Carrinho</button>
+    </div>
+  </div>
+
+  <h2>Carrinho</h2>
+  <ul id="cart"></ul>
+  <div id="cart-total">Total: R$0.00</div>
+  <script>
+    const productButtons = document.querySelectorAll(".product button");
+    productButtons.forEach((button, index) => {
+      button.addEventListener("click", () => addToCart(index));
+    });
+  </script>
+</body>
+</html>
